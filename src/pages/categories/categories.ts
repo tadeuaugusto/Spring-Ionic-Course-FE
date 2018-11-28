@@ -1,6 +1,8 @@
-import { CategoryService } from '../../services/domain/category.service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { CategoryService } from '../../services/domain/category.service';
+import { CategoryDTO } from '../../models/category.dto';
+import { API_CONFIG } from '../../config/api.config';
 
 /**
  * Generated class for the CategoriesPage page.
@@ -16,6 +18,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class CategoriesPage {
 
+  items: CategoryDTO[];
+  bucketUrl: string = API_CONFIG.bucketBaseUrl;
+
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
               public categoryService: CategoryService) {
@@ -25,9 +30,19 @@ export class CategoriesPage {
     this.categoryService.findAll()
       .subscribe(response => {
         console.log(response)
+        this.items = response;
       },
       error => {
-        console.log(error);      
+        console.log('categoryService.findAll() Error');
+        console.log("print some specific content to the Categories Page..: ");
+        console.log(error);
       });
   }
+
+  /*
+  errorPage() {
+    console.log();
+    this.navCtrl.push('GenericErrorPage');
+  }
+  */
 }
